@@ -1,0 +1,15 @@
+Isim: Zeynep,
+ Soyisim: Agar,
+ Telefon Numarasi:5531789025;
+Isim: Mert,
+ Soyisim: Agar,
+ Telefon Numarasi:4647448935;
+Isim: Ali,
+ Soyisim: Yildiz,
+ Telefon Numarasi:4659087613;
+Isim: Muazzez,
+ Soyisim: Ilmiye,
+ Telefon Numarasi:7892030560;
+Isim: Edanur,
+ Soyisim: Agar,
+ Telefon Numarasi:5678902314;

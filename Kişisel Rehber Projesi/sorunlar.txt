@@ -1,0 +1,28 @@
+main.c içinde islem alma ve ardından 
+ekle koşulu içinde kullanıcıdan alınan değerlerden sorun oluşuyordu.
+
+Sorunun Kökü: scanf ve fgets aynı anda kullanıldığında tampon çakışması (29 ve 38. satırlar)
+ C dilinde klavyeden veri alınırken standart giriş tamponu (yani stdin) kullanılır. Bu tampon, 
+senin yazıp Enter tuşuna bastığın her şeyi önce belleğe alır, sonra sırasıyla fonksiyonlar tarafından kullanılır.
+
+scanf("%s", islem);     // kullanıcı "ekle" yazdı + Enter
+fgets(kisi.ad, 100, stdin); // isim alınacak gibi görünüyor
+ 
+ scanf() sadece "ekle" kısmını alır ama Enter ile gelen \n tamponda kalır.
+Ardından gelen fgets() bunu hemen okur ve sanki kullanıcı hiçbir şey yazmamış gibi davranır.
+Sonuç: kisi.ad boş kalır, ve sonraki işlemler bozulur.
+
+kisi.ad[strcspn(kisi.ad, "\n")] = '\0';
+Ne yapar?
+fgets() kullanıldığında, kullanıcı bir şey yazıp Enter'a bastığında, bu \n karakteri string'in içine girer.
+ fgets(kisi.ad, sizeof(kisi.ad), stdin);
+// kullanıcı "Ali" yazarsa -> kisi.ad = "Ali\n"
+  Bu satır \n karakterini bulur ve yerine \0 (null karakter) koyar. Böylece "Ali\n" → "Ali" olur.
+Bu silme işlemi yazıların dosyaya düzgün yazılması ve ekranda bozuk görünmemesi için önemlidir.
+
+ C dilinde dosyadan doğrudan veri silinemez önce geçici bir dosya oluşturulur silinmek istenen 
+veri dışarıda tutularak diğer veriler o dosyaya aktarılır ve ardından yeni dosyanın ismi 
+eski dosyanın adı olarak değiştirilir bu şekilde veriler silinmiş olur.
+
+ Dosya bir kere açılıp işlemlerin hepsi oradan yapılınca programda sorunlar çıktı.
+Bu yüzden her işlem için ayrı olarak ve ihtayaca göre dosya açma işlemleri yapıldı.
